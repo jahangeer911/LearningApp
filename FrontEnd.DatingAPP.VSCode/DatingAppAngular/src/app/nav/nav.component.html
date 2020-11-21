@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">My Learning Application</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Matches <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Messages</a>
+      </li>
+    </ul>
+
+    <div *ngIf="loggedid()" class="dropdown">
+      <button class="dropdown-toggle">
+        Welcome User
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Edit Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a>
+      </div>
+    </div>
+
+    <form *ngIf="!loggedid()" class="form-inline my-2 my-lg-0" #loginForm="ngForm" (ngSubmit)="login()">
+      <input class="form-control mr-sm-2" type="text" placeholder="UserName" aria-label="UserName" name="username" required [(ngModel)]="model.username" >
+      <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Search" name="password" required [(ngModel)]="model.password">
+      <button class="btn btn-success my-2 my-sm-0" type="submit" [disabled]="!loginForm.valid" >Login</button>
+    </form> 
+  </div>
+</nav>
