@@ -54,7 +54,7 @@ namespace WebApplication1.Controllers
                 UserName= usertorregister.username
             };
             var user = await _repo.RegisterUser(createNewUser, usertorregister.password);
-            return Ok(usertorregister.username);
+            return Ok(new { usertorregister.username });
         }
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser(UserLoginClassMapper userlogin)

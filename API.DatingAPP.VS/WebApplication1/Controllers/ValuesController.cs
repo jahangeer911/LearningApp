@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
         // GET api/values
         [HttpGet]
         public async Task<IActionResult> Get() //iActionResult reutnrs HHTP response such as 201 200 400 etc else initially it was sending as string only
-        {
+        { 
             var values = await _context.values.ToListAsync();
             return Ok(values);
         }

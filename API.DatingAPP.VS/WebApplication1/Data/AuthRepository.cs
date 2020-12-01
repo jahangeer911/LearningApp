@@ -53,8 +53,7 @@ namespace WebApplication1.Data
                 await _context.SaveChangesAsync();
                 return user;
             }
-            return null;
-            //throw new NotImplementedException();
+            return null; 
         }
 
         private void CreateHashPassword(string password, out byte[] hashedPassword, out byte[] saltedPassword)

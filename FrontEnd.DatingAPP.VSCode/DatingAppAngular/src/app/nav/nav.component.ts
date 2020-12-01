@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-
+declare let alertify:any;
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -15,10 +15,10 @@ export class NavComponent implements OnInit {
 
   login(){
     this.autservice.login(this.model).subscribe(next=>{
-        console.log('success');
+       alertify.success('success');
     },error=>{
-      console.log('fail');
-    });
+      alertify.error(error);
+    }); 
     console.log(this.model);
   }
   loggedid(){
