@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../_services/auth.service';
+
 declare let alertify:any;
 @Component({
   selector: 'app-nav',
@@ -8,9 +10,11 @@ declare let alertify:any;
 })
 export class NavComponent implements OnInit {
   model:any={};
+  jwtHelper =new JwtHelperService();
   constructor(private autservice:AuthService) { }
 
   ngOnInit() {
+    this.autservice.decodedToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
   }
 
   login(){
@@ -22,10 +26,10 @@ export class NavComponent implements OnInit {
     console.log(this.model);
   }
   loggedid(){
-    const token =localStorage.getItem('token');
-    return !!token;
+    return this.autservice.loggedin();
   }
   logout(){
     localStorage.removeItem('token');
+    alertify.message('logout success');
   }
 }

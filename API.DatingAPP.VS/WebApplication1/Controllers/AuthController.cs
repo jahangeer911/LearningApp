@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -69,6 +71,7 @@ namespace WebApplication1.Controllers
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Role, "Reader"));// Roles based need to work on Later
             claims.Add(new Claim("UserID", loginuser.Id.ToString()));
+            claims.Add(new Claim("unique_name", loginuser.UserName.ToString()));
 
             var jwttoken = new JwtSecurityToken(
                 issuer: _conf["Jwt:Issuer"],

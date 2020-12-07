@@ -35,9 +35,7 @@ namespace WebApplication1.Data
                 return false;
             var user = await _context.users.FirstOrDefaultAsync(x => x.UserName == username);
             if (user!=null)
-            {
                 return true;
-            }
             return false;
         }
 
