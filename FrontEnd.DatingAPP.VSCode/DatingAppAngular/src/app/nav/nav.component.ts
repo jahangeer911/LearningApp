@@ -1,35 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../_services/auth.service';
+import { AlertifyService } from '../_services/alertify.service';
+import { Router } from '@angular/router';
 
-declare let alertify:any;
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  model:any={};
-  jwtHelper =new JwtHelperService();
-  constructor(private autservice:AuthService) { }
+  model: any = {};
+
+  constructor(public authService: AuthService, private alertify: AlertifyService,
+      private router: Router) { }
 
   ngOnInit() {
-    this.autservice.decodedToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
   }
 
-  login(){
-    this.autservice.login(this.model).subscribe(next=>{
-       alertify.success('success');
-    },error=>{
-      alertify.error(error);
-    }); 
-    console.log(this.model);
+  login() {
+    this.authService.login(this.model).subscribe(next => {
+      this.alertify.success('Logged in successfully');
+    }, error => {
+      this.alertify.error(error);
+    }, () => {
+      this.router.navigate(['/members']);
+    });
   }
-  loggedid(){
-    return this.autservice.loggedin();
+
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    return !!token;
   }
-  logout(){
+
+  logout() {
     localStorage.removeItem('token');
-    alertify.message('logout success');
+    this.alertify.message('logged out');
+    this.router.navigate(['/home']);
   }
+
 }
