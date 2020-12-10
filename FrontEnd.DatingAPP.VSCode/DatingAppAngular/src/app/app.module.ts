@@ -14,6 +14,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MemberListComponent } from './member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MessagesComponent } from './messages/messages.component';
   ],
   providers: [
     AuthService,
-    ErrorInterceptorProvider
+    ErrorInterceptorProvider,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
