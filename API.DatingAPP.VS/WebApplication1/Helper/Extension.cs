@@ -14,5 +14,9 @@ namespace WebApplication1.Helper
             response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             response.Headers.Add("Access-Control-Allow-Origin", "*");
         }
+        public static int CalculateAge(this DateTime dateTime)
+        {
+            return DateTime.Now.Year - dateTime.Year;
+        }
     }
 }
