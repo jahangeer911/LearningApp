@@ -24,9 +24,14 @@ namespace WebApplication1.Helper
                 opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.isMain).Url);
                     }).ForMember(dest => dest.Age, opt => {
                         opt.ResolveUsing(src => src.DateofBirth.CalculateAge());
-                    }); ;
+                    });
+            CreateMap<User, UserPhotoURl>().
+                    ForMember(dest => dest.PhotoUrl, opt => {
+                        opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.isMain).Url);
+                    });
             CreateMap<Photo, PhotosMapper>();
-
+            CreateMap<UserForUpdateMapper, User>();
+            CreateMap<PhotoForCreation, Photo>();
         }
     }
 }

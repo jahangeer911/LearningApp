@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,7 @@ namespace WebApplication1.Controllers
         private readonly IDatingRepository _repo;
         private readonly IMapper mapper;
 
-        public UsersController(IDatingRepository repo,IMapper mapper)
+        public UsersController(IDatingRepository repo, IMapper mapper)
         {
             _repo = repo;
             this.mapper = mapper;
@@ -50,6 +51,30 @@ namespace WebApplication1.Controllers
             var user = await _repo.GetUser(id);
             var usertoreturn = mapper.Map<UserForDetailedMapper>(user);
             return Ok(usertoreturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateMapper userforupdatemapper)
+        {
+            Claim cliamid = User.Claims.FirstOrDefault(x => x.Type.Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
+            if (cliamid != null)
+            {
+                int UserId = Convert.ToInt32(cliamid.Value);
+                if (UserId != id)
+                {
+                    return Unauthorized();
+                }
+                var userfromRepo = await _repo.GetUser(id);
+                mapper.Map(userforupdatemapper, userfromRepo);
+                if (await _repo.SaveAll())
+                {
+                    return NoContent();
+                }
+            }
+            else return Unauthorized();
+
+
+            throw new Exception("Updating user failed on Save");
         }
 
         // PUT: api/Users/5

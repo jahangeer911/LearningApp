@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +24,13 @@ namespace WebApplication1.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _conf;
+        private readonly IMapper _Mapper;
 
-        public AuthController(IAuthRepository repo, IConfiguration conf)
+        public AuthController(IAuthRepository repo, IConfiguration conf,IMapper _mapper)
         {
             _repo = repo;
             _conf = conf;
+            _Mapper = _mapper;
         }
         // GET: api/Auth
         [HttpGet]
@@ -81,7 +84,8 @@ namespace WebApplication1.Controllers
                 , claims: claims
             );
             string generatedtoken = new JwtSecurityTokenHandler().WriteToken(jwttoken);
-            return Ok(new { token = generatedtoken });
+            var user =_Mapper.Map<UserPhotoURl>(loginuser);
+            return Ok(new { token = generatedtoken ,user= user });
         }
         // PUT: api/Auth/5
         [HttpPut("{id}")]

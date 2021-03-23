@@ -8,7 +8,9 @@ import { MemberDetailsComponent } from './members/member-details/member-details.
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
+import { PrevenetUnSaveChanges } from './prevent-unsavechanges-guard';
 import { MemberDetailResolver } from './_resolvers/member-details-resolver';
+import { MemberEditResolver } from './_resolvers/member-edit-resolver';
 import { MemberListResolver } from './_resolvers/member-listss-resolver';
 
 const routes: Routes = [
@@ -17,9 +19,7 @@ const routes: Routes = [
   {path:'lists',component:ListsComponent,canActivate:[AuthGuard]},
   {path:'members',component:MemberListComponent,canActivate:[AuthGuard],resolve:{users:MemberListResolver}},
   {path:'members/:id',component:MemberDetailsComponent,canActivate:[AuthGuard],resolve:{user:MemberDetailResolver}},
-  {path:'member/edit',component:MemberEditComponent,canActivate:[AuthGuard]
-  //,resolve:{user:MemberDetailResolver
-},
+  {path:'member/edit',component:MemberEditComponent,canActivate:[AuthGuard],resolve:{user:MemberEditResolver},canDeactivate:[PrevenetUnSaveChanges]},
   {path:'**',redirectTo:'home',pathMatch:'full'}
 
 ];

@@ -26,6 +26,11 @@ namespace WebApplication1.Data
             _context.Remove(entity);
         }
 
+        public async Task<Photo> GetPhoto(int id)
+        {
+            return await _context.photos.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<User> GetUser(int id)
         {
             return await _context.users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
@@ -40,5 +45,18 @@ namespace WebApplication1.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<Photo> SetMainPhoto(int photoid)
+        {
+            var photo = await _context.photos.FirstOrDefaultAsync(p => p.Id == photoid);
+            photo.isMain = true;
+            return null;// _context.SaveChangesAsync();
+
+        }
+        public async Task<Photo> GetUserMainPhoto(int userid)
+        {
+            return await _context.photos.Where(u => u.UserId == userid).FirstOrDefaultAsync(p=>p.isMain);
+        }
+
     }
 }

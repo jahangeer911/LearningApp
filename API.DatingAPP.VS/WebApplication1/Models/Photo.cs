@@ -9,6 +9,7 @@ namespace WebApplication1.Models
         public string Description { get; set; }
         public DateTime DateAdded { get; set; }
         public bool isMain { get; set; }
+        public string PublicId { get; set; }
         public User user { get; set; }
         public int UserId { get; set; }
 

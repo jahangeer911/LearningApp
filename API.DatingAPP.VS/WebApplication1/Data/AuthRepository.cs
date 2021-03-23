@@ -21,7 +21,7 @@ namespace WebApplication1.Data
             if (username==null ||username==""||password==null||password=="")
                 return null;
 
-            var user =await _context.users.FirstOrDefaultAsync(x => x.UserName == username);
+            var user =await _context.users.Include(p=>p.Photos).FirstOrDefaultAsync(x => x.UserName == username);
             if(user!=null)
                 if (!VerifyPassword(password, user.PasswordHashed, user.SaltHashed))
                     return null;

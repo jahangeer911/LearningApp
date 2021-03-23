@@ -13,5 +13,8 @@ namespace WebApplication1.Interfaces
         Task<bool> SaveAll();
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
+        Task<Photo> GetPhoto(int id);
+        Task<Photo> GetUserMainPhoto(int userid);
+
     }
 }
