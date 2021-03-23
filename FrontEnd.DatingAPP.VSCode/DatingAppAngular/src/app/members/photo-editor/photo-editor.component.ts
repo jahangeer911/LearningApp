@@ -45,8 +45,7 @@ export class PhotoEditorComponent implements OnInit {
   }
   deletePhoto(id:number){
     alertify.confirm('Are you sure you want to delete photo',()=>{
-      this.userService.del
-      2etePhoto(this.authService.decodedToken.UserID,id).subscribe(()=>{
+      this.userService.deletePhoto(this.authService.decodedToken.UserID,id).subscribe(()=>{
         this.photos.splice(this.photos.findIndex(p=>p.id===id),1);
         console.log('remove photos array');
         alertify.success('photo deleted');
