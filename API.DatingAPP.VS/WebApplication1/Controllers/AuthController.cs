@@ -54,12 +54,12 @@ namespace WebApplication1.Controllers
             usertorregister.username = usertorregister.username.ToLower();
             if (await _repo.UserExists(usertorregister.username))
                return BadRequest("User Name Already Exists");
-            var createNewUser = new User
-            {
-                UserName= usertorregister.username
-            };
+            var createNewUser = _Mapper.Map<User>(usertorregister);
+
             var user = await _repo.RegisterUser(createNewUser, usertorregister.password);
-            return Ok(new { usertorregister.username });
+
+            var usertoreturn = _Mapper.Map<UserForDetailedMapper>(createNewUser);
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createNewUser.Id }, usertoreturn);
         }
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser(UserLoginClassMapper userlogin)

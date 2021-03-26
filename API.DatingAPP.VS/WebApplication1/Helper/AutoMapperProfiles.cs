@@ -32,6 +32,8 @@ namespace WebApplication1.Helper
             CreateMap<Photo, PhotosMapper>();
             CreateMap<UserForUpdateMapper, User>();
             CreateMap<PhotoForCreation, Photo>();
+            CreateMap<UserRegisterClassMapper, User>();
+
         }
     }
 }

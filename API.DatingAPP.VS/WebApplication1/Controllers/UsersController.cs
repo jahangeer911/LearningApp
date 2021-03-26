@@ -40,7 +40,7 @@ namespace WebApplication1.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name ="GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             if (!ModelState.IsValid)

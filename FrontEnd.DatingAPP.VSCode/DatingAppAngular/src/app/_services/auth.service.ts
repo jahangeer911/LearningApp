@@ -38,7 +38,6 @@ export class AuthService {
       )
   }
   register(model:any){
-    console.log('called first time');
     return this.http.post(this.baseURL+'register',model)
   }
   loggedin(){
