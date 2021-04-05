@@ -16,9 +16,9 @@ export class MemberDetailsComponent implements OnInit {
 
   constructor(private userservice:UsersService,private route:ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.route.data.subscribe(data=>{
-      this.user=data['user'];   
+      this.user=data['user'];    
     });
     this.galleryOptions=[
       {
@@ -33,7 +33,7 @@ export class MemberDetailsComponent implements OnInit {
     this.galleryImages= this.getImages();
     //this.getUserDetails();
   }
-  getImages(){
+  getImages(){ 
     const imagesUrls=[];
     for(let i = 0;i<this.user.photos.length;i++){
       imagesUrls.push({

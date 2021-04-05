@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Helper;
 using WebApplication1.Interfaces;
 using WebApplication1.Models;
 
@@ -36,9 +37,10 @@ namespace WebApplication1.Data
             return await _context.users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            return await _context.users.Include(p => p.Photos).ToListAsync();
+            var users = _context.users.Include(p => p.Photos);
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize); 
         }
 
         public async Task<bool> SaveAll()

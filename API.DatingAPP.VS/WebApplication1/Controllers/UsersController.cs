@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.ClassMappers;
 using WebApplication1.Data;
+using WebApplication1.Helper;
 using WebApplication1.Interfaces;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -31,11 +33,12 @@ namespace WebApplication1.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<IActionResult> Getusers()
+        public async Task<IActionResult> Getusers([FromQuery]UserParams userParams)
         {
-            var users = await _repo.GetUsers();
+            var users = await _repo.GetUsers(userParams);
             var usertoReturn = mapper.Map<IEnumerable<UserForListMapper>>(users);
-
+            Response.AddPageinationHeaders(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+    
             return Ok(usertoReturn);
         }
 
