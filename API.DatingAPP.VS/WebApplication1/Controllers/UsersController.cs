@@ -35,6 +35,13 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> Getusers([FromQuery]UserParams userParams)
         {
+            int UserId = int.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserID", StringComparison.InvariantCultureIgnoreCase)).Value);
+            userParams.UserId = UserId;
+            var userfromrepo =await _repo.GetUser(userParams.UserId);
+            if (string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = userfromrepo.Gender == "male" ? "female" : "male";// whatever is the gender then change it to other gender
+            }
             var users = await _repo.GetUsers(userParams);
             var usertoReturn = mapper.Map<IEnumerable<UserForListMapper>>(users);
             Response.AddPageinationHeaders(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);

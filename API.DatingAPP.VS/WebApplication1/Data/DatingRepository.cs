@@ -39,7 +39,26 @@ namespace WebApplication1.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.users.Include(p => p.Photos);
+            var users = _context.users.Include(p => p.Photos).Where(x => x.Id != userParams.UserId).Where(y=>y.Gender == userParams.Gender)
+                .OrderByDescending(l=>l.LastActive).AsQueryable();
+            if (userParams.MinAge!=18 ||userParams.MaxAge!=99)
+            {
+                var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+                var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+                users = users.Where(u => u.DateofBirth >= minDob && u.DateofBirth <= maxDob);
+            }
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch(userParams.OrderBy)
+                {
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
+            }
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize); 
         }
 

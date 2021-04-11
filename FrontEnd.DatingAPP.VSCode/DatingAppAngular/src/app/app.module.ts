@@ -30,6 +30,8 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 export function tokenGetter(){
   return localStorage.getItem('token');
@@ -59,6 +61,7 @@ export function tokenGetter(){
     BrowserAnimationsModule,
     NgxGalleryModule,
     FileUploadModule,
+    ButtonsModule.forRoot(),
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
@@ -68,7 +71,8 @@ export function tokenGetter(){
         allowedDomains: ["localhost:5000"],
         disallowedRoutes: ["localhost:5000/api/auth"],
       },
-    })
+    }),
+    PaginationModule.forRoot()
   ],
   providers: [
     AuthService,
