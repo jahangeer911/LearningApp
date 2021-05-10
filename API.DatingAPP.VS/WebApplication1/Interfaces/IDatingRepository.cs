@@ -16,6 +16,6 @@ namespace WebApplication1.Interfaces
         Task<User> GetUser(int id);
         Task<Photo> GetPhoto(int id);
         Task<Photo> GetUserMainPhoto(int userid);
-
+        Task<Like> IsUserLiked(int userid, int recepientuserid);
     }
 }

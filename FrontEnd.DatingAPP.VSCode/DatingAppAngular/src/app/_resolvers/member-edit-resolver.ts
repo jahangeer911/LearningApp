@@ -10,8 +10,7 @@ declare let alertify:any;
 export class MemberEditResolver implements Resolve<Users>{
     constructor(private userservice:UsersService,private router:Router,private authservice:AuthService){}
 
-    resolve(route: ActivatedRouteSnapshot): Observable<Users>  {
-        console.log(this.authservice.decodedToken)
+    resolve(route: ActivatedRouteSnapshot): Observable<Users>  { 
         return this.userservice.getUserbyID(this.authservice.decodedToken.UserID).pipe(
             catchError(error=>{
                 alertify.error(error);

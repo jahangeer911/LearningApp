@@ -14,7 +14,7 @@ export class UsersService {
   baseURL=environment.apiURL;
   constructor(private http:HttpClient) { }
 
-  getAllUser(pageNumber?,itemsPerPage?,userParams?):Observable<PaginatedResult<Users[]>>{
+  getAllUser(pageNumber?,itemsPerPage?,userParams?,likeParam?):Observable<PaginatedResult<Users[]>>{
     const paginatedResult:PaginatedResult<Users[]>=new PaginatedResult<Users[]>();
     let params=new HttpParams();
     if(pageNumber!=null&&itemsPerPage!=null){
@@ -26,8 +26,12 @@ export class UsersService {
       params = params.append('maxAge',userParams.maxAge);
       params = params.append('gender',userParams.gender);
       params = params.append('orderBy',userParams.orderBy);
-
-
+    }
+    if(likeParam==='Likees'){
+      params = params.append('likees','true');
+    }
+    if(likeParam==='Likers'){
+      params = params.append('likers','true');
     }
     return this.http.get<Users[]>(this.baseURL+'users',{observe:'response',params}).pipe(
       map(response=>{
@@ -50,5 +54,8 @@ export class UsersService {
   }
   deletePhoto(userId: number, id: number) {
     return this.http.delete(this.baseURL + 'users/' + userId + '/photos/' + id);
+  }
+  sendLike(userID:number,recepientid:number){
+    return this.http.post(this.baseURL+'users/'+userID+'/like/'+recepientid,{});
   }
 }

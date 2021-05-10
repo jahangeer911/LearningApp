@@ -86,7 +86,28 @@ namespace WebApplication1.Controllers
 
             throw new Exception("Updating user failed on Save");
         }
+        [HttpPost("{id}/like/{recipientid}")]
+        public async Task<IActionResult> LikeUser(int id,int recipientid)
+        {
+            Claim cliamid = User.Claims.FirstOrDefault(x => x.Type.Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
+            if (cliamid != null)
+            {
+                var like = await _repo.IsUserLiked(id, recipientid);
+                if (like!=null)
+                {
+                    return BadRequest("User Already Liked");
+                }
+                like =new Like{ LikeeId=id,LikerId=recipientid};
 
+                _repo.Add<Like>(like);
+                if (await _repo.SaveAll())
+                {
+                    return Ok();
+                }
+                return BadRequest("Failed to Add Like for User");
+            }
+            else return Unauthorized();
+        }
         // PUT: api/Users/5
         //[HttpPut("{id}")]
         //public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
