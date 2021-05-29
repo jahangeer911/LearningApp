@@ -17,5 +17,8 @@ namespace WebApplication1.Interfaces
         Task<Photo> GetPhoto(int id);
         Task<Photo> GetUserMainPhoto(int userid);
         Task<Like> IsUserLiked(int userid, int recepientuserid);
+        Task<Message> GetMessages(int id);
+        Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams);
+        Task<IEnumerable<Message>> GetMessagesThread(int UserId, int recipientId);
     }
 }

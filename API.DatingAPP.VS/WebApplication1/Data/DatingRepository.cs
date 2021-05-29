@@ -116,6 +116,18 @@ namespace WebApplication1.Data
         {
             return await _context.likes.Where(u => u.LikeeId == userid && u.LikerId == recepientuserid).FirstOrDefaultAsync();
         }
+        public async Task<Message> GetMessages(int id)
+        {
+            return await _context.messages.FirstOrDefaultAsync(m => m.Id == id);
+        }
 
+        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageparams)
+        {
+            return null;
+        }
+        public async Task<IEnumerable<Message>> GetMessagesThread(int UserId, int recipientId)
+        {
+            return null;
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace WebApplication1.Helper
             CreateMap<UserForUpdateMapper, User>();
             CreateMap<PhotoForCreation, Photo>();
             CreateMap<UserRegisterClassMapper, User>();
+            CreateMap<MessageMapper, Message>().ReverseMap();
 
         }
     }

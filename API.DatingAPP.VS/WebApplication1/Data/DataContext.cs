@@ -16,6 +16,7 @@ namespace WebApplication1.Data
         public DbSet<User> users { get; set; }
         public DbSet<Photo> photos { get; set; }
         public DbSet<Like> likes { get; set; }
+        public DbSet<Message> messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +33,14 @@ namespace WebApplication1.Data
                     .WithMany(u => u.Likees)
                     .HasForeignKey(u => u.LikerId)
                     .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
